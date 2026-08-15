@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ohana_kitchen_ticket_search" model="ir.ui.view">
+        <field name="name">ohana.kitchen.ticket.search</field>
+        <field name="model">ohana.kitchen.ticket</field>
+        <field name="arch" type="xml">
+            <search string="Kitchen Tickets">
+                <field name="name"/>
+                <field name="pos_reference"/>
+                <field name="table_name"/>
+                <field name="waiter_name"/>
+                <field name="stage_id"/>
+                <filter name="open" string="Open" domain="[('is_open','=',True)]"/>
+                <filter name="closed" string="Closed" domain="[('is_open','=',False)]"/>
+                <filter name="updated" string="Order Updated" domain="[('has_changes','=',True)]"/>
+                <separator/>
+                <filter name="group_stage" string="Stage" context="{'group_by':'stage_id'}"/>
+                <filter name="group_display" string="Display" context="{'group_by':'display_id'}"/>
+                <filter name="group_day" string="Order Day" context="{'group_by':'opened_at:day'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ohana_kitchen_ticket_list" model="ir.ui.view">
+        <field name="name">ohana.kitchen.ticket.list</field>
+        <field name="model">ohana.kitchen.ticket</field>
+        <field name="arch" type="xml">
+            <list create="false" delete="false" decoration-warning="has_changes" decoration-muted="not is_open">
+                <field name="opened_at"/>
+                <field name="name"/>
+                <field name="table_name"/>
+                <field name="order_type"/>
+                <field name="waiter_name"/>
+                <field name="stage_id" widget="badge"/>
+                <field name="revision_count" string="Revision" optional="show"/>
+                <field name="has_changes" optional="show"/>
+                <field name="display_id"/>
+                <field name="is_open"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ohana_kitchen_ticket_form" model="ir.ui.view">
+        <field name="name">ohana.kitchen.ticket.form</field>
+        <field name="model">ohana.kitchen.ticket</field>
+        <field name="arch" type="xml">
+            <form string="Kitchen Ticket" create="false" edit="false" delete="false">
+                <header>
+                    <button name="action_next_stage" type="object" string="Next Stage" class="btn-primary" invisible="not is_open"/>
+                    <button name="action_recall" type="object" string="Recall" invisible="is_open"/>
+                    <field name="stage_id" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><label for="name"/><h1><field name="name"/></h1></div>
+                    <group>
+                        <group string="Order">
+                            <field name="pos_order_id"/>
+                            <field name="pos_reference"/>
+                            <field name="table_name"/>
+                            <field name="order_type"/>
+                            <field name="customer_name"/>
+                            <field name="waiter_name"/>
+                            <field name="guest_count"/>
+                        </group>
+                        <group string="Timing">
+                            <field name="display_id"/>
+                            <field name="opened_at"/>
+                            <field name="updated_at"/>
+                            <field name="ready_at"/>
+                            <field name="completed_at"/>
+                            <field name="close_reason"/>
+                            <field name="revision_count"/>
+                            <field name="last_change_at"/>
+                            <field name="stage_changed_by_id"/>
+                            <field name="stage_changed_at"/>
+                            <field name="has_changes"/>
+                            <field name="is_open"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Items">
+                            <field name="line_ids" readonly="1">
+                                <list create="false" edit="false" delete="false">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="quantity"/>
+                                    <field name="product_name"/>
+                                    <field name="course_name"/>
+                                    <field name="notes"/>
+                                    <field name="is_changed"/>
+                                    <field name="is_active"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Order Notes">
+                            <group>
+                                <field name="customer_note"/>
+                                <field name="internal_note"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ohana_kitchen_ticket" model="ir.actions.act_window">
+        <field name="name">Kitchen Tickets</field>
+        <field name="res_model">ohana.kitchen.ticket</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ohana_kitchen_ticket_search"/>
+        <field name="context">{'search_default_open': 1}</field>
+    </record>
+</odoo>

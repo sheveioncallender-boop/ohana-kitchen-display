@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ohana_kitchen_stage_list" model="ir.ui.view">
+        <field name="name">ohana.kitchen.stage.list</field>
+        <field name="model">ohana.kitchen.stage</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" default_order="sequence">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="color"/>
+                <field name="is_done"/>
+                <field name="is_cancelled"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ohana_kitchen_stage_form" model="ir.ui.view">
+        <field name="name">ohana.kitchen.stage.form</field>
+        <field name="model">ohana.kitchen.stage</field>
+        <field name="arch" type="xml">
+            <form string="Kitchen Stage">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                            <field name="color"/>
+                        </group>
+                        <group>
+                            <field name="is_done"/>
+                            <field name="is_cancelled"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ohana_kitchen_stage" model="ir.actions.act_window">
+        <field name="name">Kitchen Stages</field>
+        <field name="res_model">ohana.kitchen.stage</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
