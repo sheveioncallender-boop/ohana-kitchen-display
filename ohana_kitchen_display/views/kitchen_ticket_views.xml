@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ohana_kitchen_ticket_search" model="ir.ui.view">
+        <field name="name">ohana.kitchen.ticket.search</field>
+        <field name="model">ohana.kitchen.ticket</field>
+        <field name="arch" type="xml">
+            <search string="Kitchen Tickets">
+                <field name="name"/>
+                <field name="pos_reference"/>
+                <field name="table_name"/>
+                <field name="waiter_name"/>
+                <field name="stage_id"/>
+                <filter name="active" string="Active" domain="[('active','=',True)]"/>
+                <filter name="completed" string="Completed" domain="[('active','=',False)]"/>
+                <filter name="void_alerts" string="Void Alerts" domain="[('unacknowledged_alert_count','&gt;',0)]"/>
+                <separator/>
+                <filter name="group_stage" string="Stage" context="{'group_by':'stage_id'}"/>
+                <filter name="group_display" string="Display" context="{'group_by':'display_id'}"/>
+                <filter name="group_day" string="Order Day" context="{'group_by':'opened_at:day'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ohana_kitchen_ticket_list" model="ir.ui.view">
+        <field name="name">ohana.kitchen.ticket.list</field>
+        <field name="model">ohana.kitchen.ticket</field>
+        <field name="arch" type="xml">
+            <list create="false" delete="false" decoration-danger="unacknowledged_alert_count &gt; 0" decoration-muted="not active">
+                <field name="opened_at"/>
+                <field name="name"/>
+                <field name="table_name"/>
+                <field name="order_type"/>
+                <field name="waiter_name"/>
+                <field name="stage_id" widget="badge"/>
+                <field name="unacknowledged_alert_count" string="Void Alerts"/>
+                <field name="display_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ohana_kitchen_ticket_form" model="ir.ui.view">
+        <field name="name">ohana.kitchen.ticket.form</field>
+        <field name="model">ohana.kitchen.ticket</field>
+        <field name="arch" type="xml">
+            <form string="Kitchen Ticket" create="false" delete="false">
+                <header>
+                    <button name="action_next_stage" type="object" string="Next Stage" class="btn-primary" invisible="not active"/>
+                    <button name="action_recall" type="object" string="Recall" invisible="active"/>
+                    <field name="stage_id" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><label for="name"/><h1><field name="name"/></h1></div>
+                    <group>
+                        <group string="Order">
+                            <field name="pos_order_id"/>
+                            <field name="pos_reference"/>
+                            <field name="table_name"/>
+                            <field name="order_type"/>
+                            <field name="customer_name"/>
+                            <field name="waiter_name"/>
+                            <field name="guest_count"/>
+                        </group>
+                        <group string="Timing">
+                            <field name="display_id"/>
+                            <field name="opened_at"/>
+                            <field name="updated_at"/>
+                            <field name="ready_at"/>
+                            <field name="completed_at"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Items">
+                            <field name="line_ids" readonly="1">
+                                <list create="false" edit="false" delete="false">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="quantity"/>
+                                    <field name="product_name"/>
+                                    <field name="course_name"/>
+                                    <field name="notes"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Void Alerts">
+                            <field name="alert_ids" readonly="1">
+                                <list create="false" edit="false" delete="false" decoration-danger="not acknowledged">
+                                    <field name="created_at"/>
+                                    <field name="quantity"/>
+                                    <field name="product_name"/>
+                                    <field name="reason"/>
+                                    <field name="acknowledged"/>
+                                    <field name="acknowledged_by_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Order Notes"><field name="notes" nolabel="1"/></page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ohana_kitchen_ticket" model="ir.actions.act_window">
+        <field name="name">Kitchen Tickets</field>
+        <field name="res_model">ohana.kitchen.ticket</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ohana_kitchen_ticket_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+</odoo>
+
