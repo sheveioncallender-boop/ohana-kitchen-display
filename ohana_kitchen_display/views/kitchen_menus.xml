@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_ohana_kitchen_screen" model="ir.actions.act_url">
+        <field name="name">Ohana Kitchen</field>
+        <field name="url">/ohana/kitchen</field>
+        <field name="target">self</field>
+    </record>
+
+    <menuitem id="menu_ohana_kitchen_root" name="Ohana Kitchen" sequence="18" web_icon="ohana_kitchen_display,static/description/icon.png" groups="base.group_system,ohana_kitchen_display.group_ohana_kitchen_user"/>
+    <menuitem id="menu_ohana_kitchen_operations" name="Operations" parent="menu_ohana_kitchen_root" sequence="20" groups="base.group_system,ohana_kitchen_display.group_ohana_kitchen_user"/>
+    <menuitem id="menu_ohana_kitchen_open" name="Kitchen Screen" parent="menu_ohana_kitchen_operations" action="action_ohana_kitchen_screen" sequence="10" groups="base.group_system,ohana_kitchen_display.group_ohana_kitchen_user"/>
+    <menuitem id="menu_ohana_kitchen_tickets" name="Kitchen Tickets" parent="menu_ohana_kitchen_operations" action="action_ohana_kitchen_ticket" sequence="20" groups="base.group_system,ohana_kitchen_display.group_ohana_kitchen_user"/>
+    <menuitem id="menu_ohana_kitchen_configuration" name="Configuration" parent="menu_ohana_kitchen_root" sequence="10" groups="base.group_system,ohana_kitchen_display.group_ohana_kitchen_manager"/>
+    <menuitem id="menu_ohana_kitchen_displays" name="Displays" parent="menu_ohana_kitchen_configuration" action="action_ohana_kitchen_display" sequence="10" groups="base.group_system,ohana_kitchen_display.group_ohana_kitchen_manager"/>
+    <menuitem id="menu_ohana_kitchen_stages" name="Stages" parent="menu_ohana_kitchen_configuration" action="action_ohana_kitchen_stage" sequence="20" groups="base.group_system,ohana_kitchen_display.group_ohana_kitchen_manager"/>
+</odoo>
