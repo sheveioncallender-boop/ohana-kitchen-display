@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="stage_to_cook" model="ohana.kitchen.stage">
+        <field name="name">To Cook</field><field name="code">to_cook</field><field name="sequence">10</field><field name="color">#f2a66d</field>
+    </record>
+    <record id="stage_preparing" model="ohana.kitchen.stage">
+        <field name="name">Preparing</field><field name="code">preparing</field><field name="sequence">20</field><field name="color">#f0c34e</field>
+    </record>
+    <record id="stage_ready" model="ohana.kitchen.stage">
+        <field name="name">Ready</field><field name="code">ready</field><field name="sequence">30</field><field name="color">#50c878</field>
+    </record>
+    <record id="stage_completed" model="ohana.kitchen.stage">
+        <field name="name">Completed</field><field name="code">completed</field><field name="sequence">40</field><field name="color">#87929e</field><field name="is_done" eval="True"/>
+    </record>
+    <record id="stage_cancelled" model="ohana.kitchen.stage">
+        <field name="name">Cancelled</field><field name="code">cancelled</field><field name="sequence">90</field><field name="color">#e2574c</field><field name="is_cancelled" eval="True"/>
+    </record>
+</odoo>
+
